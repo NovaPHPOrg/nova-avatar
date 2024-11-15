@@ -1,4 +1,5 @@
-<?php
+<?php 
+declare(strict_types=1);
 namespace nova\plugin\avatar;
 
 // Multiavatar v1.0 (PHP version)
