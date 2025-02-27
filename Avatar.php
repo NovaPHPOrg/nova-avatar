@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright (c) 2025. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
  * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
@@ -8,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace nova\plugin\avatar;
 
 // Multiavatar v1.0 (PHP version)
@@ -18,9 +20,8 @@ namespace nova\plugin\avatar;
 // license   https://multiavatar.com/license
 // homepage  https://multiavatar.com
 
-
-class Avatar {
-
+class Avatar
+{
     // string
     public $avatarId;
 
@@ -33,22 +34,27 @@ class Avatar {
     public $svgCode;
 
     // Deprecated
-    public function __construct($avatarId=null, $sansEnv=null, $ver=null) {
-        if ($avatarId == null) return;
+    public function __construct($avatarId = null, $sansEnv = null, $ver = null)
+    {
+        if ($avatarId == null) {
+            return;
+        }
         $this->svgCode = $this->generate(strval($avatarId), $sansEnv, $ver);
     }
 
-    public function __invoke($avatarId, $sansEnv, $ver) {
+    public function __invoke($avatarId, $sansEnv, $ver)
+    {
         $svgCode = $this->generate(strval($avatarId), $sansEnv, $ver);
         return($svgCode);
     }
 
-    static function svg($avatarId,$noBackground = false): string
+    public static function svg($avatarId, $noBackground = false): string
     {
-        return (new Avatar($avatarId,$noBackground))->svgCode;
+        return (new Avatar($avatarId, $noBackground))->svgCode;
     }
 
-    public function getFinal($part, $partV, $theme, $themes, $sP) {
+    public function getFinal($part, $partV, $theme, $themes, $sP)
+    {
 
         $colors = $themes[$partV][$theme][$part];
         $svgString = $sP[$partV][$part];
@@ -67,8 +73,8 @@ class Avatar {
         return $svgString;
     }
 
-
-    public function generate($avatarId, $sansEnv, $ver) {
+    public function generate($avatarId, $sansEnv, $ver)
+    {
 
         $themes = [];
 
@@ -424,7 +430,6 @@ class Avatar {
         $themes['15']['C']['eyes'] = ["black", "black", "aqua"];
         $themes['15']['C']['top'] = ["#00fffd", "none", "none", "none", "none"];
 
-
         // Optimization
         $sP = [];
         $svgStart = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 231 231">';
@@ -432,7 +437,6 @@ class Avatar {
         $env = '<path d="M33.83,33.83a115.5,115.5,0,1,1,0,163.34,115.49,115.49,0,0,1,0-163.34Z" style="fill:#001;"/>';
         $head = '<path d="m115.5 51.75a63.75 63.75 0 0 0-10.5 126.63v14.09a115.5 115.5 0 0 0-53.729 19.027 115.5 115.5 0 0 0 128.46 0 115.5 115.5 0 0 0-53.729-19.029v-14.084a63.75 63.75 0 0 0 53.25-62.881 63.75 63.75 0 0 0-63.65-63.75 63.75 63.75 0 0 0-0.09961 0z" style="fill:#000;"/>';
         $str = 'stroke-linecap:round;stroke-linejoin:round;stroke-width:';
-
 
         // SHAPES
 
@@ -579,53 +583,52 @@ class Avatar {
         $sP['15']['eyes'] = '<line x1="85.29" x2="85.29" y1="98.73" y2="109.79" style="fill:none;'.$str.'8.7999px;stroke:#000;"/><path d="m108.28 72.16h62.18c9.19 0 13.32 1.21 14.71 8.52 3.61 18.95 2.2 33.49-0.44 43.75a65.07 65.07 0 0 1-5.89 14.78 73.52 73.52 0 0 1-7.06 10.26c-1.8 2.27-5.17 1.21-4.19-1.09 0.14-0.47 0.27-1 0.4-1.48a14.29 14.29 0 0 0 0.52-6.62 12.52 12.52 0 0 0-3.88-6.3c-4.17-3.9-12.81-8.71-32.53-13.66-6.4-1.6-10.69-2.24-11.76-2.79a7.08 7.08 0 0 1-3.85-6.31v-9c0-2.39 0.18-4.55-1.56-6.57s-4.16-2.13-6.65-2.14a6 6 0 0 1-6-6v-9.35a6 6 0 0 1 6-6z" style="fill:#1a1a1a;"/><path d="m135.9 98.73v9.27m15.22-9.29v9.29" style="fill:none;'.$str.'7.7998px;stroke:#b2b2b2;"/>';
         $sP['15']['top'] = '<path d="m109.99 15.57c-13.46 3.6301-19.789 11.95-24.069 24.08-6.9996-7-8.7307-10.82-7.5606-21.43a41 41 0 0 0-9.2698 24.988c0.0366 7.6776 5.6462 13.939 12.697 15.297-13.315 5.8106-15.258 22.033-14.045 33.524 5.7687-11.861 14.254-20.981 27.258-22.951-0.43017 6.6-2.5099 10.22-7.29 17.66 18.29-2.8601 25.119-7.8199 37.15-18.24 0.46001 0 1.0001 0.089 1.4606 0.12058-0.33023 3.5601-1.0906 6.5598-5.0004 12.46 9.5298-1.32 14.721-5.8006 17.539-11.671 8.8862 0.95314 15.836 6.785 21.26 14.818 1.928-15.211-4.4766-26.6-19.807-34.036 1.4167-2.6974 8.0143-11.925 17.661-15.721-1.424-0.28569-2.8883-0.49486-4.4033-0.61125-5.71-0.41992-13.62-0.99982-24.89 4.1703 2.8501-8.5101 10.21-11 18.05-13.12-15.131-1.2501-28.61-2.5898-40.53 8.1801-1.8997-6.21-0.18055-12.54 3.7889-17.52z" style="fill:#111;"/><path d="m172.63 69.954c1.2292 14.064 0.93841 29.96 0.34635 45.169 1.7887 6.796 3.0379 13.235 3.8842 18.388l0.13973-0.011c1.0001 6.56 2.3597 13.18 3.2698 19.73 2.0002-6.5699 2.5303-18.25 3.2405-25.43 1.2597-13 1.8296-29.311-0.43017-41.931-0.85041-4.72-2.0007-7.6896-2.0007-8.4796 4.6205 3.5601 8.6606 9.2204 13.001 14.15-0.6751-3.4318-1.347-6.6004-2.0567-9.5273-4.047-5.7183-13.726-12.154-19.393-12.06z" style="fill:#111;"/><path d="m157.97 34.471c-10.339 2.7579-17.715 13.543-19.132 16.24 15.33 7.4361 20.783 17.96 21.278 33.517 5.9534 8.8179 10.066 20.289 12.857 30.895 0.87636-13.178 1.8186-27.726 0.26566-44.28 2.5698 0.44857 9.1372 1.3934 18.781 11.17-2.1158-8.7321-4.5671-15.31-8.4539-20.283-4.5598-5.8401-10.999-10.431-23.809-13 9.6502-3.34 16.27-0.76993 25.5 2.1301-8.1388-7.4315-16.474-14.219-27.287-16.389z" style="fill:#111;"/><path d="m61.473 73.354c-7.256-0.77501-13.024 2.3746-16.262 5.3879 0.73789-0.45409 1.3868-0.74208 1.8489-0.74208 0 0-1.5198 10.359-1.6197 11.519-1.56 19.73 0.99957 43.401 6.37 62.471 1.3099 4.6899 1.1895 3.0893 1.8898-0.9107 1.7526-10.061 3.3891-24.703 6.9739-38.864-5.068-17.627-4.2508-32.403 0.79937-38.861z" style="fill:#111;"/><path d="m69.09 43.21c-0.0253 1.0803-8e-3 2.1612 0.0523 3.2402-3.8402 0-12.46 0.71984-16 2.1598-4.4504 1.8001-8.48 5.4801-11.67 11.83 7.2999-3.94 11.899-3.8502 16.66-1.8102-10.39 3.45-19.52 11.37-20.32 26.9 1.1456-1.5053 4.6079-4.9789 7.1393-6.6285 0.09-0.0587 0.17427-0.10556 0.26167-0.15946 3.7141-2.3211 9.0494-5.1247 15.181-4.9553-5.0501 6.4577-6.6824 20.434 0.28207 38.428 1.7866-7.0567 4.0574-13.994 7.0681-20.184-1e-3 -11.664 2.0764-27.774 15.391-33.585-7.0508-2.1538-12.709-7.991-14.043-15.236z" style="fill:#111;"/>';
 
-
         // Multiavatar algorithm
         $hash = '';
 
-        if (strlen($avatarId) == 0) return $hash;
+        if (strlen($avatarId) == 0) {
+            return $hash;
+        }
 
         $sha256Hash = hash('sha256', $avatarId);
         $sha256Numbers = preg_replace("/[^0-9]/", "", $sha256Hash);
         $hash = substr($sha256Numbers, 0, 12);
-
 
         // Parts
         $p = [];
 
         // Get parts (range 0-47)
         $p['env'] = $hash[0] . '' . $hash[1];
-        $p['env'] = round((47/100)*$p['env']);
+        $p['env'] = round((47 / 100) * $p['env']);
 
         // Freeze a single part
         // e.g. '0' = 01A; '16' = 01B; '32' = 01C; '1' = 02A; '17' = 02B;
         // p['env'] = '16';
 
         $p['clo'] = $hash[2] . '' . $hash[3];
-        $p['clo'] = round((47/100)*$p['clo']);
+        $p['clo'] = round((47 / 100) * $p['clo']);
 
         // p['clo'] = '16';
 
         $p['head'] = $hash[4] . '' . $hash[5];
-        $p['head'] = round((47/100)*$p['head']);
+        $p['head'] = round((47 / 100) * $p['head']);
 
         // p['head'] = '01';
 
         $p['mouth'] = $hash[6] . '' . $hash[7];
-        $p['mouth'] = round((47/100)*$p['mouth']);
+        $p['mouth'] = round((47 / 100) * $p['mouth']);
 
         // p['mouth'] = '16';
 
         $p['eyes'] = $hash[8] . '' . $hash[9];
-        $p['eyes'] = round((47/100)*$p['eyes']);
+        $p['eyes'] = round((47 / 100) * $p['eyes']);
 
         // p['eyes'] = '16';
 
         $p['top'] = $hash[10] . '' . $hash[11];
-        $p['top'] = round((47/100)*$p['top']);
+        $p['top'] = round((47 / 100) * $p['top']);
 
         // p['top'] = '25';
-
 
         // Get parts (range 0-15) + define themes
         foreach ($p as $key => $part) {
@@ -633,20 +636,24 @@ class Avatar {
 
             if ($nr > 31) {
                 $nr = $nr - 32 . '';
-                if ($nr < 10) $nr = '0' . $nr;
+                if ($nr < 10) {
+                    $nr = '0' . $nr;
+                }
                 $p[$key] = $nr . 'C';
-            }
-            else if ($nr > 15) {
+            } elseif ($nr > 15) {
                 $nr = $nr - 16;
-                if ($nr < 10) $nr = '0' . $nr;
+                if ($nr < 10) {
+                    $nr = '0' . $nr;
+                }
                 $p[$key] = $nr . 'B';
-            }
-            else {
-                if ($nr < 10) $p[$key] = '0' . $nr . 'A';
-                else $p[$key] = $nr . 'A';
+            } else {
+                if ($nr < 10) {
+                    $p[$key] = '0' . $nr . 'A';
+                } else {
+                    $p[$key] = $nr . 'A';
+                }
             }
         }
-
 
         // Get the SVG code for each part
         $final = [];
@@ -665,7 +672,6 @@ class Avatar {
 
             $final[$key] =  $this->getFinal($key, $partV, $theme, $themes, $sP);
         }
-
 
         // Without 'env'
         if ($sansEnv) {
