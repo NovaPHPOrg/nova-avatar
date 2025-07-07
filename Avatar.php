@@ -53,6 +53,15 @@ class Avatar
         return (new Avatar($avatarId, $noBackground))->svgCode;
     }
 
+    public static function toBase64(string $svg): string
+    {
+
+// 拼接 Data URI
+        $dataUri = 'data:image/svg+xml;base64,' . base64_encode($svg);
+
+        return $dataUri;
+    }
+
     public function getFinal($part, $partV, $theme, $themes, $sP)
     {
 
