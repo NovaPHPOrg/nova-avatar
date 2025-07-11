@@ -56,7 +56,7 @@ class Avatar
     public static function toBase64(string $svg): string
     {
 
-// 拼接 Data URI
+        // 拼接 Data URI
         $dataUri = 'data:image/svg+xml;base64,' . base64_encode($svg);
 
         return $dataUri;
